@@ -1,0 +1,28 @@
+{
+  "name": "ptt",
+  "version": "1.0.0",
+  "description": "Personal techer trainer whattsapp bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Enriquefft/PTT.git"
+  },
+  "keywords": [
+    "whattsapp",
+    "bot",
+    "AI"
+  ],
+  "author": "Enrique Flores",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Enriquefft/PTT/issues"
+  },
+  "homepage": "https://github.com/Enriquefft/PTT#readme",
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.21.0"
+  }
+}
