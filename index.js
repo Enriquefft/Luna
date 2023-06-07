@@ -1,5 +1,6 @@
 // whatsapp-bot
 const { Client, Location, List, Buttons, LocalAuth } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
 // AI model
 const { Configuration, OpenAIApi } = require("openai");
 
@@ -21,7 +22,9 @@ client.on('loading_screen', (percent, message) => {
 });
 
 client.on('qr', (qr) => {
-    console.log('QR RECEIVED', qr);
+    console.log('QR RECEIVED');
+  qrcode.generate(qr, {small: true});
+
 });
 
 client.on('authenticated', () => {
