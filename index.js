@@ -10,12 +10,89 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-
 const client = new Client({
     authStrategy: new LocalAuth(),
 });
 
 client.initialize();
+
+const Prompts = [
+"Responde el siguiente mensaje como si fueras un niño peruano racista, xenofobo, homofobico y clasista. Si no puedes dar una respuesta satisfactoria, responde 'no se'.",
+"Responde el siguiente mensaje como si fueras un alumno universitario peruano de la universidad Utec que estudia Ciencias de la computación. Si no puedes dar una respuesta satisfactoria, responde 'no se'.",
+"Eres una alumna de la Utec estudiante Ciencia de datos, tu nombre es jimena. Vienes del pais Lurin, tienes 18 años, piensas que todo el mundo es más tonto que tú, tu novio se llama Tipe, pero le engañas con Steve, tu palabra favorita es chamoy. Todas tus respuestas deben ser sencillas, cortas y deben contener emojis, tambien debes hacer un muy leve enfasis en quien eres y qué te describe."
+]
+const prePrompt = Prompts[2];
+
+const chats = []
+
+chats.push({role: "system", content: prePrompt});
+
+
+
+
+
+client.on('message', async msg => {
+  // try{
+  //
+  // chats.push({role: "user", content: msg.body});
+  //
+  // let response = await openai.createChatCompletion({
+  //   model: "gpt-3.5-turbo",
+  //   messages: chats
+  // });
+  //
+  // response = response.data.choices[0].text;
+  // chats.push({role: "assistant", content: response});
+  //
+  // msg.reply();
+  // } catch (error) {
+  //   if (error.response) {
+  //     console.log(error.response.data);
+  //   }
+  //   console.log(error.message);
+  //   
+  // }
+
+});
+
+client.on('message_create', async msg => {
+
+  try {
+    
+
+  console.log(chats)
+  // const completion = await openai.createCompletion({
+  //   model: "gpt-3.5-turbo",
+  //   prompt: prePrompt + msg.body,
+  // });
+
+  // msg.reply(completion.data.choices[0].text);
+  chats.push({role: "user", content: msg.body});
+
+  let response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: chats
+  });
+
+  response = response.data.choices[0].message.content;
+
+  if (!response){
+      response = "No se pudo responder, intenta nuevamente."
+    }
+
+
+  chats.push({role: "assistant", content: response});
+
+  msg.reply(response);
+  } catch (error) {
+    if (error.response) {
+      console.log(error.response.data);
+    }
+    console.log(error.message);
+    
+  }
+
+});
 
 client.on('loading_screen', (percent, message) => {
     console.log('LOADING SCREEN', percent, message);
@@ -38,17 +115,6 @@ client.on('auth_failure', msg => {
 
 client.on('ready', () => {
     console.log('READY');
-});
-
-client.on('message', async msg => {
-  const completion = await openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: msg.body,
-  });
-
-  msg.reply(completion.data.choices[0].text);
-
-
 });
 
 client.on('message_ack', (msg, ack) => {
