@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "luna"
+version = "0.1.0"
+description = "AI powered Whatsapp bot made to function as a personal"
+authors = ["Enrique <enrique.flores@utec.edu.pe>", "Ayrton <ayrton.castro@utec.edu.pe"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aws-cdk-lib = "2.84.0"
+constructs = ">=10.0.0,<11.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "6.2.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
