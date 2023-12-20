@@ -1,2 +1,0 @@
-#!/bin/bash
-export OPENAI_API_KEY="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"
